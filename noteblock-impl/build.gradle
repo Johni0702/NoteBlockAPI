@@ -1,0 +1,15 @@
+dependencies {
+    compile project(':noteblock-api')
+}
+
+jar {
+    manifest {
+        attributes 'Specification-Title': 'NoteBlockAPI',
+                'Specification-Version': project(':noteblock-api').version,
+                'Specification-Vendor': authorUrl,
+                'Implementation-Title': 'SpongeRecording',
+                'Implementation-Version': project(':noteblock-impl').version,
+                'Implementation-Vendor': authorUrl
+
+    }
+}

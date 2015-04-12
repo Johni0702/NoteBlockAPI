@@ -1,0 +1,128 @@
+defaultTasks 'clean', 'license', 'install'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0'
+    }
+}
+
+ext.projectName = 'NoteBlockAPI'
+ext.packaging = 'jar'
+ext.author = 'Johni0702'
+ext.authorUrl = 'https://github.com/johni0702'
+ext.inceptionYear = '2015'
+
+project(':noteblock-api').version = '0.1.0-SNAPSHOT'
+project(":noteblock-impl").version = '0.1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        name 'Sponge maven repo'
+        url 'http://repo.spongepowered.org/maven'
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'license'
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
+
+    group = 'de.johni0702.sponge'
+    ext.url = rootProject.authorUrl
+
+    license {
+        ext.name = rootProject.projectName
+        ext.author = rootProject.author
+        ext.url = rootProject.authorUrl
+        ext.year = rootProject.inceptionYear
+        header new File(rootProject.getProjectDir(), 'HEADER')
+        sourceSets = project.sourceSets
+        ignoreFailures false
+        strictCheck true
+        mapping {
+            java = 'SLASHSTAR_STYLE'
+        }
+    }
+
+    repositories {
+        mavenCentral()
+        maven {
+            name 'Sponge maven repo'
+            url 'http://repo.spongepowered.org/maven'
+        }
+    }
+
+    configurations {
+        provided
+        compile.extendsFrom provided
+    }
+
+    jar {
+        dependsOn configurations.runtime
+        from {
+            (configurations.runtime - configurations.provided).collect {
+                it.isDirectory() ? it : zipTree(it)
+            }
+        }
+        manifest {
+            attributes "Built-By": System.properties['user.name'],
+                    "Created-By": System.properties['java.vm.version'] + " (" + System.properties['java.vm.vendor'] + ")"
+        }
+    }
+
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = "sources"
+        from sourceSets.main.allSource
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = "javadoc"
+        from javadoc.destinationDir
+    }
+
+    processResources {
+        from new File(rootProject.getProjectDir(), 'LICENSE')
+    }
+
+    artifacts {
+        archives jar
+        archives sourcesJar
+        archives javadocJar
+    }
+
+    build.dependsOn(sourcesJar)
+    build.dependsOn(javadocJar)
+
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                // mavenUrl has to be set in your {userfolder}/.gradle/gradle.properties file
+                if (project.hasProperty("mavenUrl")) {
+                    repository(url: mavenUrl)
+                }
+                pom {
+                    groupId = project.group
+                    artifactId = project.name
+                    version = project.version
+                }
+            }
+        }
+    }
+
+    dependencies {
+        provided 'org.spongepowered:spongeapi:1.1-SNAPSHOT'
+        compile 'javax.annotation:javax.annotation-api:1.2'
+
+        testCompile group: 'junit', name: 'junit', version: '4.11'
+        testCompile 'org.mockito:mockito-core:1.10.19'
+    }
+}

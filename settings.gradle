@@ -1,0 +1,5 @@
+rootProject.name = 'NoteBlockAPI'
+
+include 'noteblock-api'
+include 'noteblock-impl'
+

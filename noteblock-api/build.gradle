@@ -1,0 +1,8 @@
+jar {
+    manifest {
+        attributes 'Specification-Title': 'NoteBlockAPI',
+                'Specification-Version': project(':noteblock-api').version,
+                'Specification-Vendor': authorUrl
+
+    }
+}
