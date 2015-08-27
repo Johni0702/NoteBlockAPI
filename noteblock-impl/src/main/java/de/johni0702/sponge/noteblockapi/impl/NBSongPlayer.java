@@ -87,7 +87,7 @@ public class NBSongPlayer implements SongPlayer, Runnable {
     /**
      * Current volume (0 being silent, 1 being full)
      */
-    private double volume;
+    private double volume = 1;
 
     /**
      * List of listeners.
