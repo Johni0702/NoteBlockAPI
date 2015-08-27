@@ -68,6 +68,7 @@ public class NBSongPlayer implements SongPlayer, Runnable {
     /**
      * Passed time. Necessary for songs with a tempo != 20tps
      */
+    private int actualTicksPassed;
 
     /**
      * Current song.
@@ -283,45 +284,51 @@ public class NBSongPlayer implements SongPlayer, Runnable {
 
     @Override
     public void run() {
-        double volume = this.volume;
-        if (fadeIn != null && tick < fadeInDuration) {
-            volume *= fadeIn.getVolume(fadeInDuration, tick, true);
-        }
-        if (fadeOut != null && tick >= song.getLength() - fadeOutDuration) {
-            volume *= fadeOut.getVolume(fadeOutDuration, tick - (song.getLength() - fadeOutDuration), false);
-        }
+        actualTicksPassed++;
+        while (tick < actualTicksPassed * song.getTempo() / 20) {
+            double volume = this.volume;
+            int fadeInDuration = (int) (this.fadeInDuration * 20 / song.getTempo());
+            int fadeOutDuration = (int) (this.fadeOutDuration * 20 / song.getTempo());
+            if (fadeIn != null && tick < fadeInDuration) {
+                volume *= fadeIn.getVolume(fadeInDuration, tick, true);
+            }
+            if (fadeOut != null && tick >= song.getLength() - fadeOutDuration) {
+                volume *= fadeOut.getVolume(fadeOutDuration, tick - (song.getLength() - fadeOutDuration), false);
+            }
 
-        for (Player player : listeners) {
-            double playerVolume = volume * getVolume(player);
-            for (Layer layer : song.getLayers()) {
-                NoteBlock noteBlock = layer.getNoteBlock(tick);
-                if (noteBlock != null) {
-                    double noteVolume = playerVolume * layer.getVolume();
-                    for (PlayBackMethod playBack : playBacks) {
-                        playBack.play(this, player, noteBlock, noteVolume);
+            for (Player player : listeners) {
+                double playerVolume = volume * getVolume(player);
+                for (Layer layer : song.getLayers()) {
+                    NoteBlock noteBlock = layer.getNoteBlock(tick);
+                    if (noteBlock != null) {
+                        double noteVolume = playerVolume * layer.getVolume();
+                        for (PlayBackMethod playBack : playBacks) {
+                            playBack.play(this, player, noteBlock, noteVolume);
+                        }
                     }
                 }
             }
-        }
 
-        tick++;
-        if (tick > song.getLength()) {
-            eventBus.post(new SongPlayerEndEvent(this, listeners, false));
-            song = null;
+            tick++;
+            if (tick > song.getLength()) {
+                eventBus.post(new SongPlayerEndEvent(this, listeners, false));
+                song = null;
 
-            if (songProvider != null) {
-                song = songProvider.getNextSong(this);
-            }
-
-            if (song != null) {
-                song.updateLength();
-                tick = 0;
-                if (!eventBus.post(new SongPlayerStartEvent(this, listeners))) {
-                    return;
+                if (songProvider != null) {
+                    song = songProvider.getNextSong(this);
                 }
+
+                if (song != null) {
+                    song.updateLength();
+                    tick = 0;
+                    if (!eventBus.post(new SongPlayerStartEvent(this, listeners))) {
+                        return;
+                    }
+                }
+                tick = -1;
+                task.cancel();
+                return;
             }
-            tick = -1;
-            task.cancel();
         }
     }
 
