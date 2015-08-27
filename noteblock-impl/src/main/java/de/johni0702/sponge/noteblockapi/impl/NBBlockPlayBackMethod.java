@@ -28,11 +28,11 @@ import com.google.common.base.Optional;
 import de.johni0702.sponge.noteblockapi.playback.BlockPlayBackMethod;
 import de.johni0702.sponge.noteblockapi.song.NoteBlock;
 import de.johni0702.sponge.noteblockapi.songplayer.SongPlayer;
-import org.spongepowered.api.block.tile.Note;
-import org.spongepowered.api.block.tile.TileEntity;
+import org.spongepowered.api.block.tileentity.Note;
+import org.spongepowered.api.block.tileentity.TileEntity;
 import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.world.Location;
-import org.spongepowered.api.world.extent.Extent;
+import org.spongepowered.api.world.World;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -44,30 +44,29 @@ public class NBBlockPlayBackMethod implements BlockPlayBackMethod {
     /**
      * The location of the note block.
      */
-    private Location location;
+    private Location<World> location;
 
     /**
      * Create a new instance.
      * @param location The location
      */
-    public NBBlockPlayBackMethod(Location location) {
+    public NBBlockPlayBackMethod(Location<World> location) {
         this.location = checkNotNull(location, "location");
     }
 
     @Override
-    public Location getBlock() {
+    public Location<World> getBlock() {
         return location;
     }
 
     @Override
-    public void setBlock(Location location) {
+    public void setBlock(Location<World> location) {
         this.location = checkNotNull(location, "location");
     }
 
     @Override
     public void play(SongPlayer songPlayer, Player player, NoteBlock noteBlock, double volume) {
-        Extent extent = location.getExtent();
-        Optional<TileEntity> tileEntity = extent.getTileEntity(location);
+        Optional<TileEntity> tileEntity = location.getTileEntity();
         if (tileEntity.isPresent() && tileEntity.get() instanceof Note) {
             Note note = (Note) tileEntity.get();
             // Sponge implementation?

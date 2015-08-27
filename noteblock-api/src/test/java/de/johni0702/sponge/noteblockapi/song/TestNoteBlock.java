@@ -27,7 +27,7 @@ package de.johni0702.sponge.noteblockapi.song;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.spongepowered.api.data.types.NotePitch;
+import org.spongepowered.api.data.type.NotePitch;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;

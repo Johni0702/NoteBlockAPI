@@ -28,6 +28,7 @@ import de.johni0702.sponge.noteblockapi.song.NoteBlock;
 import de.johni0702.sponge.noteblockapi.songplayer.SongPlayer;
 import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 /**
  * Specifies where to play a note.
@@ -40,5 +41,5 @@ public interface LocationBehavior {
          * @param noteBlock The note
          * @return Location at which the note should be played
          */
-        Location getLocation(SongPlayer songPlayer, Player player, NoteBlock noteBlock);
+        Location<World> getLocation(SongPlayer songPlayer, Player player, NoteBlock noteBlock);
 }

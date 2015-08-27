@@ -35,6 +35,7 @@ import de.johni0702.sponge.noteblockapi.songplayer.SongPlayer;
 import de.johni0702.sponge.noteblockapi.songplayer.SongProvider;
 import org.spongepowered.api.GameRegistry;
 import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import java.util.Iterator;
 
@@ -81,12 +82,12 @@ public class NBSongPlayers implements SongPlayers {
     }
 
     @Override
-    public BlockPlayBackMethod createBlockPlayBack(Location location) {
+    public BlockPlayBackMethod createBlockPlayBack(Location<World> location) {
         return new NBBlockPlayBackMethod(location);
     }
 
     @Override
-    public EffectPlayBackMethod<FixedLocation> createSoundEffectPlayBack(GameRegistry gameRegistry, Location location) {
+    public EffectPlayBackMethod<FixedLocation> createSoundEffectPlayBack(GameRegistry gameRegistry, Location<World> location) {
         return new NBEffectPlayBackMethod<>(gameRegistry, new FixedLocation(location));
     }
 

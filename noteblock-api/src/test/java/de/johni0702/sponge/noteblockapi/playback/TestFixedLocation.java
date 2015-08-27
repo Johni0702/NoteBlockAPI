@@ -28,7 +28,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.spongepowered.api.world.Location;
-import org.spongepowered.api.world.extent.Extent;
+import org.spongepowered.api.world.World;
 
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
@@ -38,13 +38,13 @@ public class TestFixedLocation {
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
-    private Location mockLocation() {
-        return new Location(mock(Extent.class), 0, 0, 0);
+    private Location<World> mockLocation() {
+        return new Location<>(mock(World.class), 0, 0, 0);
     }
 
     @Test
     public void testConstructorGet() {
-        Location location = mockLocation();
+        Location<World> location = mockLocation();
         FixedLocation tested = new FixedLocation(location);
         assertSame(location, tested.getLocation());
     }
@@ -57,7 +57,7 @@ public class TestFixedLocation {
 
     @Test
     public void testSetGet() {
-        Location location = mockLocation();
+        Location<World> location = mockLocation();
         FixedLocation tested = new FixedLocation(mockLocation());
         tested.setLocation(location);
         assertSame(location, tested.getLocation());
@@ -65,7 +65,7 @@ public class TestFixedLocation {
 
     @Test
     public void testSetNull() {
-        Location location = mockLocation();
+        Location<World> location = mockLocation();
         FixedLocation tested = new FixedLocation(location);
 
         exception.expect(NullPointerException.class);
@@ -74,7 +74,7 @@ public class TestFixedLocation {
 
     @Test
     public void testGetLocation() {
-        Location location = mockLocation();
+        Location<World> location = mockLocation();
         FixedLocation tested = new FixedLocation(location);
         assertSame(location, tested.getLocation(null, null, null));
     }

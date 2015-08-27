@@ -28,6 +28,7 @@ import de.johni0702.sponge.noteblockapi.song.NoteBlock;
 import de.johni0702.sponge.noteblockapi.songplayer.SongPlayer;
 import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -35,14 +36,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Fixed location behavior.
  */
 public final class FixedLocation implements LocationBehavior {
-    private Location location;
+    private Location<World> location;
 
-    public FixedLocation(Location location) {
+    public FixedLocation(Location<World> location) {
         this.location = checkNotNull(location, "location");
     }
 
     @Override
-    public Location getLocation(SongPlayer songPlayer, Player player, NoteBlock noteBlock) {
+    public Location<World> getLocation(SongPlayer songPlayer, Player player, NoteBlock noteBlock) {
         return location;
     }
 
@@ -50,7 +51,7 @@ public final class FixedLocation implements LocationBehavior {
      * Return the location at which the notes are played.
      * @return The location
      */
-    public Location getLocation() {
+    public Location<World> getLocation() {
         return location;
     }
 
@@ -58,7 +59,7 @@ public final class FixedLocation implements LocationBehavior {
      * Set the location at which the notes are played.
      * @param location The location
      */
-    public void setLocation(Location location) {
+    public void setLocation(Location<World> location) {
         this.location = checkNotNull(location, "location");
     }
 }

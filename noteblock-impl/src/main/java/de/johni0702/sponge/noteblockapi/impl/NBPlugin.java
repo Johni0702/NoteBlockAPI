@@ -72,12 +72,12 @@ public class NBPlugin {
     @Subscribe
     public void test(PlayerInteractEvent event) throws IOException {
         System.out.println("INTERACT: " + event);
-        test("test.nbs", event.getPlayer());
+        test("test.nbs", event.getUser());
     }
     @Subscribe
     public void test(PlayerChatEvent event) throws IOException {
         System.out.println("CHAT: " + event);
-        test("test.nbs", event.getPlayer());
+        test("test.nbs", event.getUser());
     }
 
     public void test(String file, Player player) throws IOException {

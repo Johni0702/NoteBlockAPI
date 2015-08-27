@@ -29,6 +29,7 @@ import de.johni0702.sponge.noteblockapi.song.NoteBlock;
 import de.johni0702.sponge.noteblockapi.songplayer.SongPlayer;
 import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -47,7 +48,7 @@ public final class RelativeLocation implements LocationBehavior {
     }
 
     @Override
-    public Location getLocation(SongPlayer songPlayer, Player player, NoteBlock noteBlock) {
+    public Location<World> getLocation(SongPlayer songPlayer, Player player, NoteBlock noteBlock) {
         return player.getLocation().add(offset);
     }
 

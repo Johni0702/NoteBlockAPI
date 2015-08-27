@@ -31,6 +31,7 @@ import de.johni0702.sponge.noteblockapi.songplayer.SongPlayer;
 import de.johni0702.sponge.noteblockapi.songplayer.SongProvider;
 import org.spongepowered.api.GameRegistry;
 import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 /**
  * Create different type of song players.
@@ -69,7 +70,7 @@ public interface SongPlayers {
      * @param location The location of the note block
      * @return The play back method
      */
-    BlockPlayBackMethod createBlockPlayBack(Location location);
+    BlockPlayBackMethod createBlockPlayBack(Location<World> location);
 
     /**
      * Creates a new playback method which plays notes as sound effects (no block, no particles).
@@ -78,7 +79,7 @@ public interface SongPlayers {
      * @param location The location of the sound effect
      * @return The play back method
      */
-    EffectPlayBackMethod<FixedLocation> createSoundEffectPlayBack(GameRegistry gameRegistry, Location location);
+    EffectPlayBackMethod<FixedLocation> createSoundEffectPlayBack(GameRegistry gameRegistry, Location<World> location);
 
     /**
      * Creates a new playback method which plays notes as sound effects (no block, no particles).

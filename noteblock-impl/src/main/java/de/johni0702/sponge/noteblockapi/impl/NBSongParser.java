@@ -33,8 +33,8 @@ import de.johni0702.sponge.noteblockapi.song.Layer;
 import de.johni0702.sponge.noteblockapi.song.NoteBlock;
 import de.johni0702.sponge.noteblockapi.song.Song;
 import org.spongepowered.api.GameRegistry;
-import org.spongepowered.api.data.types.NotePitch;
-import org.spongepowered.api.data.types.NotePitches;
+import org.spongepowered.api.data.type.NotePitch;
+import org.spongepowered.api.data.type.NotePitches;
 
 import javax.sound.midi.*;
 import java.io.*;

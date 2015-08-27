@@ -24,7 +24,7 @@
  */
 package de.johni0702.sponge.noteblockapi.song;
 
-import org.spongepowered.api.data.types.NotePitch;
+import org.spongepowered.api.data.type.NotePitch;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

@@ -44,7 +44,7 @@ import org.spongepowered.api.event.Subscribe;
 import org.spongepowered.api.event.entity.player.PlayerQuitEvent;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.event.EventManager;
-import org.spongepowered.api.service.scheduler.SynchronousScheduler;
+import org.spongepowered.api.service.scheduler.SchedulerService;
 import org.spongepowered.api.service.scheduler.Task;
 
 import java.util.Arrays;
@@ -117,11 +117,11 @@ public class NBSongPlayer implements SongPlayer, Runnable {
 
     private final PluginContainer plugin;
     private final EventManager eventBus;
-    private final SynchronousScheduler syncScheduler;
+    private final SchedulerService scheduler;
 
     @Inject
     public NBSongPlayer(Game game, PluginContainer plugin) {
-        this.syncScheduler = game.getSyncScheduler();
+        this.scheduler = game.getScheduler();
         this.eventBus = game.getEventManager();
         this.plugin = plugin;
 
@@ -266,7 +266,7 @@ public class NBSongPlayer implements SongPlayer, Runnable {
         if (eventBus.post(new SongPlayerStartEvent(this, listeners))) {
             return false;
         }
-        task = syncScheduler.runRepeatingTask(plugin, this, 1).get();
+        task = scheduler.createTaskBuilder().execute(this).interval(1).submit(plugin.getInstance());
         return true;
     }
 
@@ -327,8 +327,8 @@ public class NBSongPlayer implements SongPlayer, Runnable {
 
     @Subscribe
     public void onPlayerLeft(PlayerQuitEvent event) {
-        if (listeners.contains(event.getPlayer())) {
-            listeners.remove(event.getPlayer());
+        if (listeners.contains(event.getUser())) {
+            listeners.remove(event.getUser());
         }
     }
 }

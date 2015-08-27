@@ -33,7 +33,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.spongepowered.api.GameRegistry;
-import org.spongepowered.api.data.types.NotePitch;
+import org.spongepowered.api.data.type.NotePitch;
 import org.spongepowered.api.effect.sound.SoundTypes;
 import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.world.Location;

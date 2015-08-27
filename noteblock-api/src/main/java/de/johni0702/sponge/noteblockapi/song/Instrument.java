@@ -27,7 +27,7 @@ package de.johni0702.sponge.noteblockapi.song;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterators;
 import org.spongepowered.api.GameRegistry;
-import org.spongepowered.api.data.types.NotePitch;
+import org.spongepowered.api.data.type.NotePitch;
 import org.spongepowered.api.effect.sound.SoundType;
 import org.spongepowered.api.effect.sound.SoundTypes;
 

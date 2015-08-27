@@ -25,6 +25,7 @@
 package de.johni0702.sponge.noteblockapi.playback;
 
 import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 /**
  * Plays notes at one specific note block.
@@ -35,11 +36,11 @@ public interface BlockPlayBackMethod extends PlayBackMethod {
      * Return the location of the note block.
      * @return The location
      */
-    Location getBlock();
+    Location<World> getBlock();
 
     /**
      * Set the location of the note block.
      * @param location The location
      */
-    void setBlock(Location location);
+    void setBlock(Location<World> location);
 }
