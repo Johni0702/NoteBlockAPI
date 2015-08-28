@@ -313,6 +313,7 @@ public class NBSongPlayer implements SongPlayer, Runnable {
             if (tick > song.getLength()) {
                 eventBus.post(new SongPlayerEndEvent(this, listeners, false));
                 song = null;
+                actualTicksPassed = 0;
 
                 if (songProvider != null) {
                     song = songProvider.getNextSong(this);
