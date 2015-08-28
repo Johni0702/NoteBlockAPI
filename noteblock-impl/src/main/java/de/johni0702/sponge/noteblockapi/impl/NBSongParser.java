@@ -100,7 +100,10 @@ public class NBSongParser implements SongParser {
                 SortedMap<Integer, NoteBlock> notes = layer.getNotes();
                 length = Math.max(length, notes.isEmpty() ? 0 : notes.lastKey());
             }
-            return new Song(length, name, author, author, "Imported MIDI file", 1);
+            Song song = new Song(length, name, author, author, "Imported MIDI file", 1);
+            song.getLayers().addAll(layers);
+            song.setTempo(20);
+            return song;
         } catch (InvalidMidiDataException e) {
             throw new IOException(e);
         }
